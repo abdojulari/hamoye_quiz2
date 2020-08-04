@@ -79,9 +79,26 @@ def get_weights_df(model, feat, col_name):
     return weights_df
 
 linear_model_weights = get_weights_df(regressor, X_train, 'linear_Model_Weight')
+
+# Finding the lowest weight and higher weight respectively
+
+lower_weight = linear_model_weights['linear_Model_Weight'].min()
+higher_weight = linear_model_weights['linear_Model_Weight'].max()
+print(lower_weight)
+print(higher_weight)
+linear_model_weights[(linear_model_weights['linear_Model_Weight'] == lower_weight) | (linear_model_weights['linear_Model_Weight'] == higher_weight)]
+
 ridge_weights_df = get_weights_df(ridge_reg, X_train, 'Ridge_weight')
 lasso_weights_df = get_weights_df(lasso_reg, X_train, 'Lasso_Weight')
 
 
+
+
+
 final_weights = pd.merge(linear_model_weights, ridge_weights_df, on='Features')
+
+# finding number of non-zero for lasso 
 final_weights = pd.merge(final_weights, lasso_weights_df, on='Features')
+print(lasso_weights_df[lasso_weights_df['Lasso_Weight'] != 0])
+
+
